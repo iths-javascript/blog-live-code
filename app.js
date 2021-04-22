@@ -2,12 +2,12 @@ const express = require('express')
 require('dotenv').config()
 
 const app = express()
+const userRoutes = require('./routes/users.js')
+
 app.use( express.json() )
 
+app.use('/api/v1', userRoutes)
 
-app.get('/', (req,res) => {
-  res.json({message: 'Hello World'})
-})
 
 const PORT = process.env.PORT || 5000
 
