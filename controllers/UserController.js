@@ -21,5 +21,10 @@ module.exports = {
       const token = await User.authenticate(email, password)
       res.json({token, email})
     }catch(error){ next(error) }
+  },
+
+  me(req, res, next){
+    const {name, email} = req.user
+    res.json({name, email})
   }
 }

@@ -1,4 +1,5 @@
 const db = require('./connection')
-const User = require('../models/User')
+require('../models/User')
+require('../models/Post')
 
 db.sync()
