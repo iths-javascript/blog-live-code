@@ -1,4 +1,4 @@
-const { InvalidBody, PostNotFound } = require("../errors")
+const { InvalidBody, PostNotFound, Unauthorized } = require("../errors")
 const Post = require("../models/Post")
 
 function parseQuery(query){
@@ -48,5 +48,35 @@ module.exports = {
     if(!post){ throw new PostNotFound(id) }
     
     res.json({post})
+  },
+
+  async update(req, res, next){
+    try{
+      const {id} = req.params
+      const {title, content} = req.body
+      const fields = {}
+      if(title) fields.title = title
+      if(content) fields.content = content
+      
+      const post = await Post.findOne({where:{id}})
+      if(!post){ throw new PostNotFound(id) }
+      if(post.UserId != req.user.id){ throw new Unauthorized() }
+
+      await Post.update(fields, {where: {id}})    
+      res.json({message: 'Post updated'})
+    }catch(error){ next(error) }
+  },
+
+  async delete(req, res, next){
+    try{
+      const {id} = req.params
+      const post = await Post.findOne({where:{id}})
+      if(post.UserId != req.user.id){ throw new Unauthorized() }
+      
+      await post.destroy()
+      res.json({message: 'Post annihilated!'})
+    }catch(error){ next(error) }
   }
+
+
 }
