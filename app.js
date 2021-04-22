@@ -3,11 +3,12 @@ require('dotenv').config()
 
 const app = express()
 const userRoutes = require('./routes/users.js')
-
+const {errorHandler} = require('./middleware/errorHandler')
 app.use( express.json() )
 
 app.use('/api/v1', userRoutes)
 
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 5000
 

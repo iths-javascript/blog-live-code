@@ -8,7 +8,16 @@ class InvalidBody extends BlogError{
     this.errorCode = 400
   }
 }
+class InvalidCredentials extends BlogError{
+  constructor(){
+    super()    
+    this.message = `Invalid credentials`
+    this.errorCode = 403
+  }
+}
 
 module.exports = {
-  InvalidBody
+  BlogError,
+  InvalidBody,
+  InvalidCredentials
 }
