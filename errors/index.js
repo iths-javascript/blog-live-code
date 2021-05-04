@@ -22,6 +22,16 @@ class Unauthorized extends BlogError{
     this.errorCode = 401
   }
 }
+class Forbidden extends BlogError{
+  constructor(){
+    super()    
+    this.message = `Forbidden`
+    this.errorCode = 403
+  }
+}
+
+
+
 class TokenExpired extends BlogError{
   constructor(){
     super()    
@@ -44,5 +54,6 @@ module.exports = {
   InvalidCredentials,
   Unauthorized,
   TokenExpired,
-  PostNotFound
+  PostNotFound,
+  Forbidden
 }

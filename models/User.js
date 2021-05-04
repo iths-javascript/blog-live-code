@@ -20,6 +20,11 @@ const User = db.define('User', {
   password: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  role: {
+    type: DataTypes.STRING,
+    enum: ['user', 'admin'],
+    defaultValue: 'user'
   }
 })
 
@@ -34,7 +39,7 @@ User.authenticate = async (email, password) => {
 
   const passwordMatch = bcrypt.compareSync(password, user.password)
   if(passwordMatch){
-    const payload = {id: user.id, name: user.name, email: user.email}
+    const payload = {id: user.id, name: user.name, email: user.email, role: user.role}
     return jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: '1w'})
   }else{
     throw new InvalidCredentials()
